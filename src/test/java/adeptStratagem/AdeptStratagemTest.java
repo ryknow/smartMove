@@ -1,13 +1,14 @@
 package adeptStratagem;
 
+import com.sun.corba.se.impl.logging.ORBUtilSystemException;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Unit test for simple App.
+ * Unit test for AdeptStratagem
  */
-public class AppTest 
+public class AdeptStratagemTest
     extends TestCase
 {
     /**
@@ -15,7 +16,7 @@ public class AppTest
      *
      * @param testName name of the test case
      */
-    public AppTest( String testName )
+    public AdeptStratagemTest( String testName )
     {
         super( testName );
     }
@@ -25,14 +26,15 @@ public class AppTest
      */
     public static Test suite()
     {
-        return new TestSuite( AppTest.class );
+        return new TestSuite( AdeptStratagemTest.class );
     }
 
     /**
      * Rigourous Test :-)
      */
-    public void testApp()
+    public void testAdeptStratagem()
     {
-        assertTrue( true );
+        System.out.println("TESTING APPLICATION");
+        assertTrue(true);
     }
 }
