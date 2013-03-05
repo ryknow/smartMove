@@ -77,7 +77,14 @@ public class AdeptStratagemGUI implements ActionListener {
     if (ev.getSource() == sourceButton || ev.getSource() == destButton) {
       populateDirectoryText(ev.getSource());
     } else if (ev.getSource() == goButton) {
-      // Logic for moving files
+      if (sourceDir != null && destDir != null) {
+        for (ASFile asFile : sourceDir.getAsFiles()) {
+          asFile.moveTo(destDir.getDirectoryString());
+          // TODO: Update progress bar based on files being moved
+        }
+      } else {
+        progressLabel.setText("You must choose both a Source and Destination Directory to perform this action.");
+      }
     }
 
   }
@@ -98,6 +105,7 @@ public class AdeptStratagemGUI implements ActionListener {
         sourceText.setText(srcPath);
         setSourceDir(srcPath);
         progressLabel.setText(sourceDir.imageCount() + " File(s) to be moved");
+        sourceDir.display();
       } else if (button == destButton) {
         String destPath = fileChooser.getSelectedFile().getAbsolutePath();
         destText.setText(destPath);
@@ -112,7 +120,7 @@ public class AdeptStratagemGUI implements ActionListener {
    * @param path    path to the directory that images will be moved from
    */
   public void setSourceDir(String path) {
-    sourceDir = new DirectoryListing(path);
+    sourceDir = new DirectoryListing(path, true);
   }
 
   /**
@@ -121,6 +129,6 @@ public class AdeptStratagemGUI implements ActionListener {
    * @param path    path to the directory that images will be moved to
    */
   public void setDestDir(String path) {
-    destDir = new DirectoryListing(path);
+    destDir = new DirectoryListing(path, false);
   }
 }

@@ -16,21 +16,24 @@ public class DirectoryListing {
    * Creates an ArrayList of ASFile objects for the items in the directory.
    *
    * @param dir             String path to directory that a DirectoryListing is being created for
-   *
-   * @exception Exception   thrown when path provided is not to a directory
+   * @param createFiles     Boolean flag signifying whether the directory contains files being moved
    */
-  DirectoryListing(String dir) {
+  DirectoryListing(String dir, Boolean createFiles) {
     directory = new File(dir);
-    if (!directory.isDirectory()) try {
-      throw new Exception("Must provide a directory");
-    } catch (Exception e) {
-      e.printStackTrace();
+    if (!directory.isDirectory()) {
+      try {
+        throw new Exception("Must provide a directory");
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
 
     directoryString = directory.getAbsolutePath();
-    asFiles         = new ArrayList<ASFile>();
 
-    createASFiles();
+    if (createFiles) {
+      asFiles = new ArrayList<ASFile>();
+      createASFiles();
+    }
   }
 
   public String getDirectoryString() {
@@ -45,6 +48,10 @@ public class DirectoryListing {
 
   public int imageCount() {
     return asFiles.size();
+  }
+
+  public ArrayList<ASFile> getAsFiles() {
+    return asFiles;
   }
 
   /**

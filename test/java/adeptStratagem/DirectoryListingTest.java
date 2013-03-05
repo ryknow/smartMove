@@ -11,7 +11,7 @@ public class DirectoryListingTest {
   DirectoryListing dirList, badDirList;
   @Before
   public void setUp() throws Exception {
-    dirList = new DirectoryListing(System.getenv("HOME") + "/pics");
+    dirList = new DirectoryListing(System.getenv("HOME") + "/pics", true);
   }
 
   @Test
@@ -27,6 +27,6 @@ public class DirectoryListingTest {
 
   @Test(expected = NullPointerException.class)
   public void testExceptionCatching() {
-    badDirList = new DirectoryListing(System.getenv("HOME") + "/web-pics");
+    badDirList = new DirectoryListing(System.getenv("HOME") + "/web-pics", true);
   }
 }

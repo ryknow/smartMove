@@ -43,4 +43,9 @@ public class ASFileTest {
     asFile.setFileMonth("01");
     Assert.assertTrue(asFile.getFileMonth().equals("01"));
   }
+
+  @Test
+  public void testMoveTo() {
+
+  }
 }

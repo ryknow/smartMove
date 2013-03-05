@@ -44,6 +44,7 @@ public class ASFile extends File {
     return fileMonth;
   }
 
+  // TODO: Change month to be in the format of MM - Month i.e. 01 - January
   public void setFileMonth(String month) {
     fileMonth = month;
   }
@@ -52,8 +53,6 @@ public class ASFile extends File {
    * Analyzes the metadata for the image and sets the fileYear and fileMonth properties to be used
    * while moving the files to the destination directory.
    *
-   * @exception JpegProcessingException     issue reading the metadata for a jpeg file
-   * @exception IOException                 issue opening the file
    * @exception NullPointerException        unable to get date information from the image
    */
   public void setASFileMetadata() {
@@ -77,5 +76,28 @@ public class ASFile extends File {
       Logger.getAnonymousLogger().log(Level.SEVERE, "Unable to obtain date information from the specified JPG file");
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Moves the ASFile object to the destination specified.  If the destination directory doesn't exist it creates it and
+   * then performs the move.
+   *
+   * @param destinationRoot     The root directory that the file will be moved to. Sub-directories are based on image
+   *                            metadata (year and month).
+   */
+  public boolean moveTo(String destinationRoot) {
+    String destination  = destinationRoot + "/" + getFileYear() + "/" + getFileMonth();
+    File destinationDir = new File(destination);
+    if (!destinationDir.isDirectory()) {
+      System.out.println("Creating directory....");
+      destinationDir.mkdirs();
+    }
+
+    File destinationFile = new File(destination + "/" + getName());
+    Boolean moved = renameTo(destinationFile);
+    if (moved) {
+      System.out.println(getName() + " successfully moved...");
+    }
+    return moved;
   }
 }
