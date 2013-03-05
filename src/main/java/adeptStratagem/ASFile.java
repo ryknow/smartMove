@@ -44,7 +44,7 @@ public class ASFile extends File {
     return fileMonth;
   }
 
-  // TODO: Change month to be in the format of MM - Month i.e. 01 - January
+  // TODO: Change month to be in the format of M - Month i.e. 1 - January
   public void setFileMonth(String month) {
     fileMonth = month;
   }
