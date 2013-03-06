@@ -9,17 +9,34 @@ import org.joda.time.DateTime;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * ASFile (AdeptStratagemFile) Object which inherits from File and adds year and month
  * metadata to the File object.
+ *
+ * @author ryknow
  */
 public class ASFile extends File {
   private String fileYear;
   private String fileMonth;
   private Metadata metadata;
+  private static final String[] MONTHS = new String[]{
+    "1 - January",
+    "2 - February",
+    "3 - March",
+    "4 - April",
+    "5 - May",
+    "6 - June",
+    "7 - July",
+    "8 - August",
+    "9 - September",
+    "10 - October",
+    "11 - November",
+    "12 - December"
+  };
 
   /**
    * Creates a File object with added metadata information (year and month that image
@@ -41,10 +58,9 @@ public class ASFile extends File {
   }
 
   public String getFileMonth() {
-    return fileMonth;
+    return MONTHS[Integer.parseInt(fileMonth) - 1];
   }
 
-  // TODO: Change month to be in the format of M - Month i.e. 1 - January
   public void setFileMonth(String month) {
     fileMonth = month;
   }
@@ -85,7 +101,8 @@ public class ASFile extends File {
    * @param destinationRoot     The root directory that the file will be moved to. Sub-directories are based on image
    *                            metadata (year and month).
    */
-  public boolean moveTo(String destinationRoot) {
+  public HashMap moveTo(String destinationRoot) {
+    HashMap<String, String> returnHash = new HashMap<String, String>();
     String destination  = destinationRoot + "/" + getFileYear() + "/" + getFileMonth();
     File destinationDir = new File(destination);
     if (!destinationDir.isDirectory()) {
@@ -96,8 +113,13 @@ public class ASFile extends File {
     File destinationFile = new File(destination + "/" + getName());
     Boolean moved = renameTo(destinationFile);
     if (moved) {
-      System.out.println(getName() + " successfully moved...");
+      System.out.println(getName() + " moved to " + destination);
+      returnHash.put("success", "true");
+      returnHash.put("message", getName() + " moved to " + destination);
+    } else {
+      returnHash.put("success", "false");
+      returnHash.put("message", "FAILURE: Unable to move " + getName() + " to " + destination);
     }
-    return moved;
+    return returnHash;
   }
 }

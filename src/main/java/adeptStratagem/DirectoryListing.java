@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 /**
  * Directory listing of Files that contain year and month metadata (ASFile)
+ *
+ * @author ryknow
  */
 public class DirectoryListing {
   private String directoryString;

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 /**
  * AdeptStratagemGUI creates and renders the GUI to be able to pick the source and destination directories for the moving of
@@ -13,12 +14,13 @@ import java.awt.event.ActionListener;
  */
 public class AdeptStratagemGUI implements ActionListener {
   private JFrame frame;
-  private JPanel mainPanel, sourcePanel, destPanel, bottomPanel;
-  private JLabel progressLabel;
+  private JPanel mainPanel, sourcePanel, destPanel, bottomPanel, outputPanel;
+  private JLabel progressLabel, sourceLabel, destLabel;
   private JButton goButton, sourceButton, destButton;
+  private JTextArea progressOutput;
   private JFileChooser fileChooser;
-  private JTextField sourceText, destText;
   private DirectoryListing sourceDir, destDir;
+  private static final int PADDING = 5;
 
   /**
    * The constructor will initialize all of the necessary GUI elements
@@ -34,24 +36,31 @@ public class AdeptStratagemGUI implements ActionListener {
     
     sourcePanel  = new JPanel(new BorderLayout());
     sourceButton = new JButton("Choose");
-    sourceText  = new JTextField("source directory....", 20);
-    sourceText.setEnabled(false);
-    sourcePanel.add(sourceText, BorderLayout.WEST);
+    sourceLabel  = new JLabel("source directory....");
+    sourcePanel.add(sourceLabel, BorderLayout.WEST);
     sourcePanel.add(sourceButton, BorderLayout.EAST);
+    sourcePanel.setBorder(BorderFactory.createEmptyBorder(PADDING,PADDING,PADDING,PADDING));
 
     destPanel  = new JPanel(new BorderLayout());
     destButton = new JButton("Choose");
-    destText   = new JTextField("destination directory....", 20);
-    destText.setEnabled(false);
-    destPanel.add(destText, BorderLayout.WEST);
+    destLabel  = new JLabel("destination directory....");
+    destPanel.add(destLabel, BorderLayout.WEST);
     destPanel.add(destButton, BorderLayout.EAST);
-
+    destPanel.setBorder(BorderFactory.createEmptyBorder(PADDING,PADDING,PADDING,PADDING));
 
     bottomPanel   = new JPanel(new BorderLayout());
     progressLabel = new JLabel("");
     goButton      = new JButton("Go!");
     bottomPanel.add(progressLabel, BorderLayout.WEST);
     bottomPanel.add(goButton, BorderLayout.EAST);
+    bottomPanel.setBorder(BorderFactory.createEmptyBorder(PADDING,PADDING,PADDING,PADDING));
+
+    outputPanel    = new JPanel(new BorderLayout());
+    progressOutput = new JTextArea(10, 50);
+    progressOutput.setEnabled(false);
+    progressOutput.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    outputPanel.add(progressOutput);
+    outputPanel.setBorder(BorderFactory.createEmptyBorder(PADDING,PADDING,PADDING,PADDING));
   }
 
   /**
@@ -61,10 +70,13 @@ public class AdeptStratagemGUI implements ActionListener {
     mainPanel.add(sourcePanel);
     mainPanel.add(destPanel);
     mainPanel.add(bottomPanel);
+    mainPanel.add(outputPanel);
     
     frame.add(mainPanel);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.pack();
+    frame.setLocationRelativeTo(null);
+    frame.setResizable(false);
     frame.setVisible(true);
 
     sourceButton.addActionListener(this);
@@ -79,11 +91,12 @@ public class AdeptStratagemGUI implements ActionListener {
     } else if (ev.getSource() == goButton) {
       if (sourceDir != null && destDir != null) {
         for (ASFile asFile : sourceDir.getAsFiles()) {
-          asFile.moveTo(destDir.getDirectoryString());
-          // TODO: Update progress bar based on files being moved
+          HashMap<String, String> returnHash = asFile.moveTo(destDir.getDirectoryString());
+          // TODO: Decide what to do when a move fails
+          progressOutput.append(returnHash.get("message"));
         }
       } else {
-        progressLabel.setText("You must choose both a Source and Destination Directory to perform this action.");
+        progressLabel.setText("You must choose both a Source and Destination Directory");
       }
     }
 
@@ -102,13 +115,13 @@ public class AdeptStratagemGUI implements ActionListener {
     if (returnVal == JFileChooser.APPROVE_OPTION) {
       if (button == sourceButton) {
         String srcPath = fileChooser.getSelectedFile().getAbsolutePath();
-        sourceText.setText(srcPath);
+        sourceLabel.setText(srcPath);
         setSourceDir(srcPath);
         progressLabel.setText(sourceDir.imageCount() + " File(s) to be moved");
         sourceDir.display();
       } else if (button == destButton) {
         String destPath = fileChooser.getSelectedFile().getAbsolutePath();
-        destText.setText(destPath);
+        destLabel.setText(destPath);
         setDestDir(destPath);
       }
     }

@@ -8,7 +8,7 @@ import org.junit.Test;
  *
  */
 public class DirectoryListingTest {
-  DirectoryListing dirList, badDirList;
+  DirectoryListing dirList;
   @Before
   public void setUp() throws Exception {
     dirList = new DirectoryListing(System.getenv("HOME") + "/pics", true);
@@ -23,10 +23,5 @@ public class DirectoryListingTest {
   public void testSetDirectoryString() throws Exception {
     dirList.setDirectoryString(System.getenv("HOME"));
     Assert.assertTrue(dirList.getDirectoryString().equals(System.getenv("HOME")));
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void testExceptionCatching() {
-    badDirList = new DirectoryListing(System.getenv("HOME") + "/web-pics", true);
   }
 }
