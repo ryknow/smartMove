@@ -1,4 +1,4 @@
-package adeptStratagem;
+package smartMove;
 
 import junit.framework.Assert;
 import org.junit.Before;

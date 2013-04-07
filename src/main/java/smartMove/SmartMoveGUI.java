@@ -1,4 +1,4 @@
-package adeptStratagem;
+package smartMove;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,12 +7,12 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 /**
- * AdeptStratagemGUI creates and renders the GUI to be able to pick the source and destination directories for the moving of
+ * SmartMoveGUI creates and renders the GUI to be able to pick the source and destination directories for the moving of
  * image files.
  *
  * @author ryknow
  */
-public class AdeptStratagemGUI implements ActionListener {
+public class SmartMoveGUI implements ActionListener {
   private JFrame frame;
   private JPanel mainPanel, sourcePanel, destPanel, bottomPanel, outputPanel;
   private JLabel progressLabel, sourceLabel, destLabel;
@@ -25,8 +25,8 @@ public class AdeptStratagemGUI implements ActionListener {
   /**
    * The constructor will initialize all of the necessary GUI elements
    */
-  public AdeptStratagemGUI() {
-    frame = new JFrame("AdeptStratagem");
+  public SmartMoveGUI() {
+    frame = new JFrame("SmartMove");
 
     fileChooser = new JFileChooser();
     fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -90,8 +90,8 @@ public class AdeptStratagemGUI implements ActionListener {
       populateDirectoryText(ev.getSource());
     } else if (ev.getSource() == goButton) {
       if (sourceDir != null && destDir != null) {
-        for (ASFile asFile : sourceDir.getAsFiles()) {
-          HashMap<String, String> returnHash = asFile.moveTo(destDir.getDirectoryString());
+        for (SMFile smFile : sourceDir.getSmFiles()) {
+          HashMap<String, String> returnHash = smFile.moveTo(destDir.getDirectoryString());
           // TODO: Decide what to do when a move fails
           progressOutput.append(returnHash.get("message"));
         }

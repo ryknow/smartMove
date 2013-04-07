@@ -1,4 +1,4 @@
-package adeptStratagem;
+package smartMove;
 
 import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.imaging.jpeg.JpegProcessingException;
@@ -14,12 +14,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * ASFile (AdeptStratagemFile) Object which inherits from File and adds year and month
+ * SMFile (AdeptStratagemFile) Object which inherits from File and adds year and month
  * metadata to the File object.
  *
  * @author ryknow
  */
-public class ASFile extends File {
+public class SMFile extends File {
   private String fileYear;
   private String fileMonth;
   private Metadata metadata;
@@ -44,7 +44,7 @@ public class ASFile extends File {
    *
    * @param filename    String path of a image file that will be analyzed and moved
    */
-  public ASFile(String filename) {
+  public SMFile(String filename) {
     super(filename);
     setASFileMetadata();
   }
@@ -95,7 +95,7 @@ public class ASFile extends File {
   }
 
   /**
-   * Moves the ASFile object to the destination specified.  If the destination directory doesn't exist it creates it and
+   * Moves the SMFile object to the destination specified.  If the destination directory doesn't exist it creates it and
    * then performs the move.
    *
    * @param destinationRoot     The root directory that the file will be moved to. Sub-directories are based on image

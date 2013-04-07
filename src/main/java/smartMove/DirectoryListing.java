@@ -1,21 +1,21 @@
-package adeptStratagem;
+package smartMove;
 
 import java.io.File;
 import java.util.ArrayList;
 
 /**
- * Directory listing of Files that contain year and month metadata (ASFile)
+ * Directory listing of Files that contain year and month metadata (SMFile)
  *
  * @author ryknow
  */
 public class DirectoryListing {
   private String directoryString;
   private File directory;
-  private ArrayList<ASFile> asFiles;
+  private ArrayList<SMFile> smFiles;
 
   /**
    * Constructor to create a DirectoryListing object based on path.
-   * Creates an ArrayList of ASFile objects for the items in the directory.
+   * Creates an ArrayList of SMFile objects for the items in the directory.
    *
    * @param dir             String path to directory that a DirectoryListing is being created for
    * @param createFiles     Boolean flag signifying whether the directory contains files being moved
@@ -33,8 +33,8 @@ public class DirectoryListing {
     directoryString = directory.getAbsolutePath();
 
     if (createFiles) {
-      asFiles = new ArrayList<ASFile>();
-      createASFiles();
+      smFiles = new ArrayList<SMFile>();
+      createSMFiles();
     }
   }
 
@@ -49,11 +49,11 @@ public class DirectoryListing {
   }
 
   public int imageCount() {
-    return asFiles.size();
+    return smFiles.size();
   }
 
-  public ArrayList<ASFile> getAsFiles() {
-    return asFiles;
+  public ArrayList<SMFile> getSmFiles() {
+    return smFiles;
   }
 
   /**
@@ -70,13 +70,13 @@ public class DirectoryListing {
   }
 
   /**
-   * Iterates over the directory and creates an ASFile object for any image files located in the directory.
+   * Iterates over the directory and creates an SMFile object for any image files located in the directory.
    * Currently restricted to jpg files.
    */
-  private void createASFiles() {
+  private void createSMFiles() {
     for (String file : directory.list() ) {
       if (file.toLowerCase().indexOf(".jpg") > 0) {
-        asFiles.add(new ASFile(directoryString + "/" + file));
+        smFiles.add(new SMFile(directoryString + "/" + file));
       }
     }
   }

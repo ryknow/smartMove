@@ -1,4 +1,4 @@
-package adeptStratagem;
+package smartMove;
 
 import junit.framework.Assert;
 import org.junit.After;
@@ -11,54 +11,54 @@ import java.util.HashMap;
 /**
  *
  */
-public class ASFileTest {
-  ASFile asFile;
+public class SMFileTest {
+  SMFile smFile;
 
   @Before
   public void setUp() throws Exception {
-    asFile = new ASFile(System.getenv("HOME") + "/pics/_DSC0003.JPG");
-    asFile.setASFileMetadata();
+    smFile = new SMFile(System.getenv("HOME") + "/pics/_DSC0003.JPG");
+    smFile.setASFileMetadata();
   }
 
   @Test
   public void testSetASFileMetadata() throws Exception {
-    Assert.assertTrue(asFile.getFileYear().equals("2013"));
-    Assert.assertTrue(asFile.getFileMonth().equals("2 - February"));
+    Assert.assertTrue(smFile.getFileYear().equals("2013"));
+    Assert.assertTrue(smFile.getFileMonth().equals("2 - February"));
   }
 
   @Test
   public void testGetFileYear() throws Exception {
-    Assert.assertTrue(asFile.getFileYear().equals("2013"));
+    Assert.assertTrue(smFile.getFileYear().equals("2013"));
   }
 
   @Test
   public void testSetFileYear() throws Exception {
-    asFile.setFileYear("2012");
-    Assert.assertTrue(asFile.getFileYear().equals("2012"));
+    smFile.setFileYear("2012");
+    Assert.assertTrue(smFile.getFileYear().equals("2012"));
   }
 
   @Test
   public void testGetFileMonth() throws Exception {
-    Assert.assertTrue(asFile.getFileMonth().equals("2 - February"));
+    Assert.assertTrue(smFile.getFileMonth().equals("2 - February"));
   }
 
   @Test
   public void testSetFileMonth() throws Exception {
-    asFile.setFileMonth("01");
-    Assert.assertTrue(asFile.getFileMonth().equals("1 - January"));
+    smFile.setFileMonth("01");
+    Assert.assertTrue(smFile.getFileMonth().equals("1 - January"));
   }
 
   @Test
   public void testMoveTo() {
-    HashMap<String, String> moved = asFile.moveTo(System.getenv("HOME") + "/web-pics");
+    HashMap<String, String> moved = smFile.moveTo(System.getenv("HOME") + "/web-pics");
     Assert.assertEquals("true", moved.get("success"));
   }
 
   @Test
   public void testMoveToDirectories() {
-    asFile.moveTo(System.getenv("HOME") + "/web-pics");
+    smFile.moveTo(System.getenv("HOME") + "/web-pics");
     File newDirectories = new File(System.getenv("HOME") + "/web-pics/" +
-        asFile.getFileYear() + "/" + asFile.getFileMonth());
+        smFile.getFileYear() + "/" + smFile.getFileMonth());
     Assert.assertTrue(newDirectories.isDirectory());
   }
 
